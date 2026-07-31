@@ -3,7 +3,7 @@
         'name' => 'palasthotel/cron-logger',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'd2eac360b2fd360dbef067cd52f256f0d3b97d45',
+        'reference' => '361bd69f893444c2041f806ffb62a1dc7d66b473',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'palasthotel/cron-logger' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'd2eac360b2fd360dbef067cd52f256f0d3b97d45',
+            'reference' => '361bd69f893444c2041f806ffb62a1dc7d66b473',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

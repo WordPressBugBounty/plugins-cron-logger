@@ -78,7 +78,6 @@ class Log  extends Database {
 			)
 		);
 		if ( $result == false ) {
-			echo $this->wpdb->last_query;
 			$error_message  = "🚨 " . $this->wpdb->last_query;
 			$this->errors[] = $error_message;
 			error_log( "Cron Logger: " . $error_message );
@@ -99,36 +98,59 @@ class Log  extends Database {
 			),
 			$args
 		);
-		$count  = $args->count;
-		$page   = $args->page;
+		$count  = absint( $args->count );
+		$page   = max( 1, absint( $args->page ) );
 		$offset = $count * ( $page - 1 );
 
-		$where_min_seconds = ( $args->min_seconds != null ) ? "AND duration >= " . $args->min_seconds : "";
+		$sql    = "SELECT * FROM " . $this->table . " WHERE parent_id IS NULL";
+		$params = array();
+
+		if ( $args->min_seconds != null ) {
+			$sql      .= " AND duration >= %d";
+			$params[] = absint( $args->min_seconds );
+		}
+
+		$sql      .= " ORDER BY executed DESC LIMIT %d, %d";
+		$params[] = $offset;
+		$params[] = $count;
 
 		return $this->wpdb->get_results(
-			"SELECT * FROM " . $this->table . " WHERE parent_id IS NULL " . $where_min_seconds . " ORDER BY executed DESC LIMIT $offset, $count"
+			$this->wpdb->prepare( $sql, ...$params )
 		);
 	}
 
 	function getSublist( $log_id, $count = 50, $page = 0 ): array {
-		$offset = $count * $page;
+		$count  = absint( $count );
+		$offset = $count * absint( $page );
 
 		return $this->wpdb->get_results(
-			"SELECT * FROM " . $this->table . " WHERE parent_id = $log_id  ORDER BY id DESC LIMIT $offset, $count"
+			$this->wpdb->prepare(
+				"SELECT * FROM " . $this->table . " WHERE parent_id = %d ORDER BY id DESC LIMIT %d, %d",
+				absint( $log_id ),
+				$offset,
+				$count
+			)
 		);
 	}
 
 	function clean(): void {
 		$table     = $this->table;
-		$days      = apply_filters( Plugin::FILTER_EXPIRE, 30 );
-		$parentIds = "SELECT id FROM (" .
+		// absint because the value comes from a filter any site can implement,
+		// and it is interpolated into the INTERVAL expression below.
+		$days      = absint( apply_filters( Plugin::FILTER_EXPIRE, 30 ) );
+		$expiredParentIds = "SELECT id FROM (" .
 		             "SELECT id FROM " . $this->table . " WHERE " .
 		             "parent_id IS NULL AND " .
 		             "executed < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL $days day))" .
-		             ") as parent_id";
+		             ") as expired_parents";
 
-		$this->wpdb->query( "DELETE FROM $table WHERE parent_id IN ($parentIds)" );
-		$this->wpdb->query( "DELETE FROM $table WHERE id IN ($parentIds)" );
+		$childIdsWithoutParent = "SELECT id FROM (" .
+            "SELECT id FROM " . $this->table . " WHERE parent_id NOT IN ( ".
+			"SELECT id FROM " . $this->table . " WHERE parent_id IS NULL ) AND parent_id IS NOT NULL" .
+            ") as orphained_children";
+
+		$this->wpdb->query( "DELETE FROM $table WHERE parent_id IN ($expiredParentIds)" );
+		$this->wpdb->query( "DELETE FROM $table WHERE id IN ($childIdsWithoutParent)" );
 	}
 
 	function createTables() {

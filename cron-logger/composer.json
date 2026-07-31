@@ -1,0 +1,12 @@
+{
+  "name": "palasthotel/cron-logger",
+  "description": "Cron logging service",
+  "autoload": {
+    "psr-4": {
+      "CronLogger\\": "classes"
+    }
+  },
+  "require": {
+    "php": "~8.1"
+  }
+}
