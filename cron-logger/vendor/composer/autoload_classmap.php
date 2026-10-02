@@ -7,4 +7,17 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'CronLogger\\Ajax' => $baseDir . '/classes/Ajax.php',
+    'CronLogger\\Components\\Component' => $baseDir . '/classes/Components/Component.php',
+    'CronLogger\\Components\\Database' => $baseDir . '/classes/Components/Database.php',
+    'CronLogger\\Components\\Plugin' => $baseDir . '/classes/Components/Plugin.php',
+    'CronLogger\\Components\\Update' => $baseDir . '/classes/Components/Update.php',
+    'CronLogger\\Log' => $baseDir . '/classes/Log.php',
+    'CronLogger\\Page' => $baseDir . '/classes/Page.php',
+    'CronLogger\\Schedule' => $baseDir . '/classes/Schedule.php',
+    'CronLogger\\Services' => $baseDir . '/classes/Services.php',
+    'CronLogger\\Services\\SolrPlugin' => $baseDir . '/classes/Services/SolrPlugin.php',
+    'CronLogger\\Services\\WPCron' => $baseDir . '/classes/Services/WPCron.php',
+    'CronLogger\\Timer' => $baseDir . '/classes/Timer.php',
+    'CronLogger\\Updates' => $baseDir . '/classes/Updates.php',
 );

@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit23ee4c2407e30847b3ca4c7f48c696a9
 {
     public static $prefixLengthsPsr4 = array (
-        'C' => 
+        'C' =>
         array (
             'CronLogger\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'CronLogger\\' => 
+        'CronLogger\\' =>
         array (
             0 => __DIR__ . '/../..' . '/classes',
         ),
@@ -22,6 +22,19 @@ class ComposerStaticInit23ee4c2407e30847b3ca4c7f48c696a9
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'CronLogger\\Ajax' => __DIR__ . '/../..' . '/classes/Ajax.php',
+        'CronLogger\\Components\\Component' => __DIR__ . '/../..' . '/classes/Components/Component.php',
+        'CronLogger\\Components\\Database' => __DIR__ . '/../..' . '/classes/Components/Database.php',
+        'CronLogger\\Components\\Plugin' => __DIR__ . '/../..' . '/classes/Components/Plugin.php',
+        'CronLogger\\Components\\Update' => __DIR__ . '/../..' . '/classes/Components/Update.php',
+        'CronLogger\\Log' => __DIR__ . '/../..' . '/classes/Log.php',
+        'CronLogger\\Page' => __DIR__ . '/../..' . '/classes/Page.php',
+        'CronLogger\\Schedule' => __DIR__ . '/../..' . '/classes/Schedule.php',
+        'CronLogger\\Services' => __DIR__ . '/../..' . '/classes/Services.php',
+        'CronLogger\\Services\\SolrPlugin' => __DIR__ . '/../..' . '/classes/Services/SolrPlugin.php',
+        'CronLogger\\Services\\WPCron' => __DIR__ . '/../..' . '/classes/Services/WPCron.php',
+        'CronLogger\\Timer' => __DIR__ . '/../..' . '/classes/Timer.php',
+        'CronLogger\\Updates' => __DIR__ . '/../..' . '/classes/Updates.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
